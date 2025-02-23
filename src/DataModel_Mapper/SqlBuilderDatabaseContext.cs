@@ -28,7 +28,7 @@ public abstract class SqlBuilderDatabaseContext
     public void AddTableConfiguration(TableConfiguration tableConfiguration)
     {
         var hasConfiguration = _tableConfiguration.TryGetValue(tableConfiguration.EntityType, out _);
-        if (hasConfiguration) throw new Exception("Já existe uma configuração de tabela feita para esta entidade.");
+        if (hasConfiguration) throw new Exception("There is already a table configuration set up for this entity.");
 
         _tableConfiguration.AddOrUpdate(
             tableConfiguration.EntityType, 
@@ -36,7 +36,7 @@ public abstract class SqlBuilderDatabaseContext
             (_, tc) =>
             {
                 if (tc.TableName != tableConfiguration.TableName) 
-                    throw new Exception("Deu ruim");
+                    throw new ArgumentException(nameof(tc.TableName));
                 
                 return tableConfiguration;
             });
@@ -45,7 +45,7 @@ public abstract class SqlBuilderDatabaseContext
     public TableConfiguration GetTableConfiguration<TTableEntity>()
     {
         var hasConfiguration = _tableConfiguration.TryGetValue(typeof(TTableEntity), out var tableConfiguration);
-        if (hasConfiguration == false) throw new Exception("Não existe nenhuma configuração de tabela feita para esta entidade.");
+        if (hasConfiguration == false) throw new Exception("There is no table configuration set up for this entity.");
 
         return tableConfiguration;
     }
@@ -60,7 +60,7 @@ public abstract class SqlBuilderDatabaseContext
             (_, mb) =>
             {
                 if (mb.Property.MetadataToken != member.Property.MetadataToken)
-                    throw new Exception("Deu ruim");
+                    throw new ArgumentException(nameof(mb.Property.MetadataToken));
 
                 return member;
             });
@@ -70,12 +70,12 @@ public abstract class SqlBuilderDatabaseContext
     public DataModelInfo GetColumnConfiguration(int propertyToken)
     {
         if (propertyToken == default)
-            throw new Exception("O token especificado está vazio.");
+            throw new Exception("The specified token is empty.");
 
         var columnConfigurationFound = _columnConfiguration.TryGetValue(propertyToken, out var columnConfiguration);
 
         if (columnConfigurationFound == false)
-            throw new Exception($"A configuração para a coluna de token {propertyToken} não foi encontrada.");
+            throw new Exception($"The configuration for the token column {propertyToken} was not found.");
 
         return columnConfiguration;
     }

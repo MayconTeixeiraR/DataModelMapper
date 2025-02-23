@@ -29,7 +29,7 @@ namespace DataModel_Mapper.SqlServer.Translate
             if (onNewLine) query.AppendLine();
             
             if (tabSize > 0) query.Append(" ".PadRight(tabSize));
-            if (withComma) query.Append(",");
+            if (withComma) query.Append(',');
 
             query.Append(@string);
         }
@@ -55,7 +55,7 @@ namespace DataModel_Mapper.SqlServer.Translate
         {
             if (onNewLine) query.AppendLine();
             if (tabSize > 0) query.Append(" ".PadRight(tabSize));
-            if (withComma) query.Append(",");
+            if (withComma) query.Append(',');
 
             AppendTable(query, propertyColumnMember);
             Append(query, ".");

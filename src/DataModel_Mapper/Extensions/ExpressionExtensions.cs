@@ -11,7 +11,7 @@ public static class ExpressionUtils
                                ?? ((entityPropertyExpression as LambdaExpression)?.Body as UnaryExpression)?.Operand as MemberExpression;
 
         if (memberExpression == null)
-            throw new Exception("Não foi possível obter um MemberExpression da expressão.");
+            throw new Exception("It was not possible to obtain a MemberExpression from the expression.");
 
         return memberExpression.Member;
     }
